@@ -1,12 +1,10 @@
 # array
 
-# 数组
-
 ## 定义
 
 数组（array）是按次序排列的一组值。每个值的位置都有编号（从0开始），整个数组用方括号表示。
 
-```
+```JS
 var arr = ['a', 'b', 'c'];
 ```
 
@@ -14,175 +12,389 @@ var arr = ['a', 'b', 'c'];
 
 除了在定义时赋值，数组也可以先定义后赋值。
 
-```
-var arr = [];arr[0] = 'a';arr[1] = 'b';arr[2] = 'c';
+```JS
+var arr = [];
+arr[0] = 'a';
+arr[1] = 'b';
+arr[2] = 'c';
 ```
 
 任何类型的数据，都可以放入数组。
 
-```
-var arr = [  {a: 1},  [1, 2, 3],  function() {return true;}];arr[0] // Object {a: 1}arr[1] // [1, 2, 3]arr[2] // function (){return true;}
+```JS
+var arr = [  {a: 1},  [1, 2, 3],  function() {return true;}];
+arr[0] // Object {a: 1}
+arr[1] // [1, 2, 3]
+arr[2] // function (){return true;}
+
 ```
 
 上面数组`arr`的3个成员依次是对象、数组、函数。
 
+## multi-dimensional array 多维数组
+
 如果数组的元素还是数组，就形成了多维数组。
 
-```
-var a = [[1, 2], [3, 4]];a[0][1] // 2a[1][1] // 4
+```JS
+var a = [[1, 2], [3, 4]];
+
+a[0][1] // 2
+a[1][1] // 4
+
+//
+var arr = [
+  [1,2,3],
+  [4,5,6],
+  [7,8,9],
+  [[10,11,12], 13, 14]
+];
+arr[3]; // equals [[10,11,12], 13, 14]
+arr[3][0]; // equals [10,11,12]
+arr[3][0][1]; // equals 11
+
 ```
 
-## 数组的本质
+## 属性
+
+### 一种特殊的对象
 
 本质上，数组属于一种特殊的对象。`typeof`运算符会返回数组的类型是`object`。
 
-```
+```JS
 typeof [1, 2, 3] // "object"
+
 ```
 
 上面代码表明，`typeof`运算符认为数组的类型就是对象。
 
 数组的特殊性体现在，它的键名是按次序排列的一组整数（0，1，2…）。
 
-```
-var arr = ['a', 'b', 'c'];Object.keys(arr)// ["0", "1", "2"]
+```JS
+var arr = ['a', 'b', 'c'];
+Object.keys(arr)// ["0", "1", "2"]
+
 ```
 
 上面代码中，`Object.keys`方法返回数组的所有键名。可以看到数组的键名就是整数0、1、2。
 
-由于数组成员的键名是固定的（默认总是0、1、2…），因此数组不用为每个元素指定键名，而对象的每个成员都必须指定键名。JavaScript 语言规定，对象的键名一律为字符串，所以，数组的键名其实也是字符串。之所以可以用数值读取，是因为非字符串的键名会被转为字符串。
+由于数组成员的键名是固定的（默认总是0、1、2…），因此数组不用为每个元素指定键名，而对象的每个成员都必须指定键名。
+JavaScript 语言规定，对象的键名一律为字符串，所以，数组的键名其实也是字符串。之所以可以用数值读取，是因为非字符串的键名会被转为字符串。
 
-```
-var arr = ['a', 'b', 'c'];arr['0'] // 'a'arr[0] // 'a'
+```JS
+var arr = ['a', 'b', 'c'];
+arr['0'] // 'a'arr[0] // 'a'
 ```
 
 上面代码分别用数值和字符串作为键名，结果都能读取数组。原因是数值键名被自动转为了字符串。
 
 注意，这点在赋值时也成立。一个值总是先转成字符串，再作为键名进行赋值。
 
-```
-var a = [];a[1.00] = 6;a[1] // 6
+```JS
+var a = [];
+a[1.00] = 6;
+a[1] // 6
 ```
 
 上面代码中，由于`1.00`转成字符串是`1`，所以通过数字键`1`可以读取值。
 
 上一章说过，对象有两种读取成员的方法：点结构（`object.key`）和方括号结构（`object[key]`）。但是，对于数值的键名，不能使用点结构。
 
-```
-var arr = [1, 2, 3];arr.0 // SyntaxError
+```JS
+var arr = [1, 2, 3];
+arr.0 // SyntaxError
 ```
 
-上面代码中，`arr.0`的写法不合法，因为单独的数值不能作为标识符（identifier）。所以，数组成员只能用方括号`arr[0]`表示（方括号是运算符，可以接受数值）。
+上面代码中，`arr.0`的写法不合法，因为单独的数值不能作为标识符（identifier）。
+所以，数组成员只能用方括号`arr[0]`表示（方括号是运算符，可以接受数值）。
 
-## length 属性
+### length 属性
 
 数组的`length`属性，返回数组的成员数量。
 
-```
+```JS
 ['a', 'b', 'c'].length // 3
+
 ```
 
 JavaScript 使用一个32位整数，保存数组的元素个数。这意味着，数组成员最多只有 4294967295 个（232 - 1）个，也就是说`length`属性的最大值就是 4294967295。
 
-只要是数组，就一定有`length`属性。该属性是一个动态的值，等于键名中的最大整数加上`1`。
+只要是数组，就一定有`length`属性。
+该属性是一个动态的值，等于键名中的最大整数加上`1`。
 
-```
-var arr = ['a', 'b'];arr.length // 2arr[2] = 'c';arr.length // 3arr[9] = 'd';arr.length // 10arr[1000] = 'e';arr.length // 1001
+```JS
+var arr = ['a', 'b'];
+arr.length // 2
+arr[2] = 'c';
+arr.length // 3
+arr[9] = 'd';
+arr.length // 10
+arr[1000] = 'e';
+arr.length // 1001
 ```
 
 上面代码表示，数组的数字键不需要连续，`length`属性的值总是比最大的那个整数键大`1`。另外，这也表明数组是一种动态的数据结构，可以随时增减数组的成员。
 
 `length`属性是可写的。如果人为设置一个小于当前成员个数的值，该数组的成员会自动减少到`length`设置的值。
 
-```
-var arr = [ 'a', 'b', 'c' ];arr.length // 3arr.length = 2;arr // ["a", "b"]
+```JS
+var arr = [ 'a', 'b', 'c' ];
+arr.length // 3
+arr.length = 2;
+arr // ["a", "b"]
 ```
 
 上面代码表示，当数组的`length`属性设为2（即最大的整数键只能是1）那么整数键2（值为`c`）就已经不在数组中了，被自动删除了。
 
 清空数组的一个有效方法，就是将`length`属性设为0。
 
-```
-var arr = [ 'a', 'b', 'c' ];arr.length = 0;arr // []
+```JS
+var arr = [ 'a', 'b', 'c' ];
+arr.length = 0;
+arr // []
 ```
 
 如果人为设置`length`大于当前元素个数，则数组的成员数量会增加到这个值，新增的位置都是空位。
 
-```
-var a = ['a'];a.length = 3;a[1] // undefined
+```JS
+var a = ['a'];
+a.length = 3;
+a[1] // undefined
 ```
 
 上面代码表示，当`length`属性设为大于数组个数时，读取新增的位置都会返回`undefined`。
 
 如果人为设置`length`为不合法的值，JavaScript 会报错。
 
-```
-// 设置负值[].length = -1// RangeError: Invalid array length// 数组元素个数大于等于2的32次方[].length = Math.pow(2, 32)// RangeError: Invalid array length// 设置字符串[].length = 'abc'// RangeError: Invalid array length
+```JS
+// 设置负值
+[].length = -1 // RangeError: Invalid array length
+
+// 数组元素个数大于等于2的32次方
+[].length = Math.pow(2, 32)// RangeError: Invalid array length
+
+// 设置字符串
+[].length = 'abc'// RangeError: Invalid array length
+
 ```
 
 值得注意的是，由于数组本质上是一种对象，所以可以为数组添加属性，但是这不影响`length`属性的值。
 
-```
-var a = [];a['p'] = 'abc';a.length // 0a[2.1] = 'abc';a.length // 0
+```JS
+var a = [];
+a['p'] = 'abc';
+a.length // 0
+a[2.1] = 'abc';
+a.length // 0
 ```
 
-上面代码将数组的键分别设为字符串和小数，结果都不影响`length`属性。因为，`length`属性的值就是等于最大的数字键加1，而这个数组没有整数键，所以`length`属性保持为`0`。
+上面代码将数组的键分别设为字符串和小数，结果都不影响`length`属性。
+因为，`length`属性的值就是等于最大的数字键加1，而这个数组没有整数键，所以`length`属性保持为`0`。
 
 如果数组的键名是添加超出范围的数值，该键名会自动转为字符串。
 
-```
-var arr = [];arr[-1] = 'a';arr[Math.pow(2, 32)] = 'b';arr.length // 0arr[-1] // "a"arr[4294967296] // "b"
+```JS
+var arr = [];
+arr[-1] = 'a';
+arr[Math.pow(2, 32)] = 'b';arr.length // 0arr[-1] // "a"arr[4294967296] // "b"
 ```
 
 上面代码中，我们为数组`arr`添加了两个不合法的数字键，结果`length`属性没有发生变化。这些数字键都变成了字符串键名。最后两行之所以会取到值，是因为取键值时，数字键名会默认转为字符串。
 
-## in 运算符
 
-检查某个键名是否存在的运算符`in`，适用于对象，也适用于数组。
+### 键值 in 运算符
 
+检查某个键名是否存在的运算符`in`，
+适用于对象，也适用于数组。
+
+```JS
+var arr = [ 'a', 'b', 'c' ];
+2 in arr  // true
+'2' in arr // true
+4 in arr // false
+
+// 两者是等价的
+[ 'a', 'b', 'c' ]
+{ '1': 'a', '2': 'b', '3': 'c' }
 ```
-var arr = [ 'a', 'b', 'c' ];2 in arr  // true'2' in arr // true4 in arr // false
-```
 
-上面代码表明，数组存在键名为`2`的键。由于键名都是字符串，所以数值`2`会自动转成字符串。
+
+上面代码表明，数组存在键名为`2`的键。
+由于键名都是字符串，所以数值`2`会自动转成字符串。
 
 注意，如果数组的某个位置是空位，`in`运算符返回`false`。
 
-```
-var arr = [];arr[100] = 'a';100 in arr // true1 in arr // false
+```JS
+var arr = [];
+arr[100] = 'a';
+100 in arr // true
+1 in arr // false
 ```
 
 上面代码中，数组`arr`只有一个成员`arr[100]`，其他位置的键名都会返回`false`。
 
-## for…in 循环和数组的遍历
+## 常用方法
+
+### push
+```JS
+var arr1 = [1,2,3];
+arr1.push(4);
+// arr1 is now [1,2,3,4]
+
+var arr2 = ["Stimpson", "J", "cat"];
+arr2.push(["happy", "joy"]);
+// arr2 now equals ["Stimpson", "J", "cat", ["happy", "joy"]]
+
+```
+
+### pop()
+
+pop 的结果
+
+1. 读出数组的最后一个元素
+2. 同时删掉这个元素
+
+```JS
+var threeArr = [1, 4, 6];
+var oneDown = threeArr.pop();
+console.log(oneDown); // Returns 6
+console.log(threeArr); // Returns [1, 4]
+
+```
+
+### shift()
+
+1. 读出数组的第一个元素
+2. 同时删掉这个元素
+
+```JS
+var ourArray = ["Stimpson", "J", ["cat"]];
+var removedFromOurArray = ourArray.shift();
+// removedFromOurArray now equals "Stimpson" and ourArray now equals ["J", ["cat"]].
+
+```
+
+### unshift()
+
+```JS
+var ourArray = ["Stimpson", "J", "cat"];
+ourArray.shift(); // ourArray now equals ["J", "cat"]
+ourArray.unshift("Happy");
+// ourArray now equals ["Happy", "J", "cat"]
+
+```
+
+## 数组的遍历和循环和
+
+
+### forEach
+
+数组的`forEach`方法，也可以用来遍历数组，详见《标准库》的 Array 对象一章。
+
+```JS
+var colors = ['red', 'green', 'blue'];
+colors.forEach(function (color) {
+    console.log(color);
+});// red// green// blue
+```
+
+### map 方法 (不改变原数组)
+
+map 方法会给原数组中的每个元素都按顺序调用一次  callback 函数。
+callback 每次执行后的返回值（包括 undefined）组合起来形成一个新数组。 
+callback 函数只会在有值的索引上被调用；
+那些从来没被赋过值或者使用 delete 删除的索引则不会被调用。让数组通过某种计算产生一个新数组,影射成一个新的数组,
+
+代码:
+
+```JS
+var arr = [1,2,3]
+var newArr = arr.map(current => current * 5)
+
+```
+
+### reduce 方法
+
+让数组中的前项和后项做某种计算,并累计最终值,
+代码:
+
+```JS
+var wallets = [4,7.8,3]
+var totalMoney = wallets.reduce( function (countedMoney, wallet) {
+    return countedMoney + wallet.money;
+}, 0)
+```
+
+### for…in 
 
 `for...in`循环不仅可以遍历对象，也可以遍历数组，毕竟数组只是一种特殊对象。
 
-```
-var a = [1, 2, 3];for (var i in a) {  console.log(a[i]);}// 1// 2// 3
+```JS
+var a = [1, 2, 3];
+for (var i in a) {
+    console.log(a[i]);
+}// 1// 2// 3
 ```
 
 但是，`for...in`不仅会遍历数组所有的数字键，还会遍历非数字键。
 
-```
-var a = [1, 2, 3];a.foo = true;for (var key in a) {  console.log(key);}// 0// 1// 2// foo
+```JS
+var a = [1, 2, 3];
+a.foo = true;
+for (var key in a) {
+    console.log(key);
+}
+// 0// 1// 2// foo
+
 ```
 
-上面代码在遍历数组时，也遍历到了非整数键`foo`。所以，不推荐使用`for...in`遍历数组。
+上面代码在遍历数组时，也遍历到了非整数键`foo`。
+所以，不推荐使用`for...in`遍历数组。
 
 数组的遍历可以考虑使用`for`循环或`while`循环。
 
-```
-var a = [1, 2, 3];// for循环for(var i = 0; i < a.length; i++) {  console.log(a[i]);}// while循环var i = 0;while (i < a.length) {  console.log(a[i]);  i++;}var l = a.length;while (l--) {  console.log(a[l]);}
+``` JS
+var a = [1, 2, 3];
+// for循环
+for(var i = 0; i < a.length; i++) {  
+    console.log(a[i]);
+}
+
+// while循环
+var i = 0;
+while (i < a.length) {
+    console.log(a[i]);  
+    i++;
+}
+
+var l = a.length;
+while (l--) {
+    console.log(l + ":" + a[l]);  
+
+}
+
 ```
 
+### for-of 语句 (ES 6)
+
+for-of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值执行语句。只要是一个iterable的对象,就可以通过for-of来迭代.
+代码:
+
+``` JS
+
+var arr = [{name:'bb'},5,'test']
+for (item of arr) {
+    console.log(item)
+}
+```
+
+### for-of 和 for-in 的区别
+
+for-in 语句以原始插入顺序迭代对象的可枚举属性。
+for-in会把继承链的对象属性都会遍历一遍,所以会更花时间.
+
+for-of 语句只遍历可迭代对象的数据。
 上面代码是三种遍历数组的写法。最后一种写法是逆向遍历，即从最后一个元素向第一个元素遍历。
 
-数组的`forEach`方法，也可以用来遍历数组，详见《标准库》的 Array 对象一章。
-
-```
-var colors = ['red', 'green', 'blue'];colors.forEach(function (color) {  console.log(color);});// red// green// blue
-```
 
 ## 数组的空位
 
@@ -287,6 +499,70 @@ Array.prototype.forEach.call('abc', function (chr) {  console.log(chr);});// a//
 ```
 var arr = Array.prototype.slice.call('abc');arr.forEach(function (chr) {  console.log(chr);});// a// b// c
 ```
+# 常用代码
+
+## 1. 数组合并
+
+代码案例：
+
+```JS
+var a = [1,2,3];
+var b = [4,5,6];
+
+//meth 1
+var c = a.concat(b);
+//c=[1,2,3,4,5,6]
+
+//meth 2
+for(var i in b){
+    a.push(b[i]);
+}
+
+//meth 3
+a.push.apply(a,b);
+
+```
+
+### 方法 1 concat
+
+js的Array对象提供了一个叫concat()方法，连接两个或更多的数组，并返回结果。
+
+这里有一个问题，concat方法连接a、b两个数组后，a、b两个数组的数据不变，同时会返回一个新的数组。
+这样当我们需要进行多次的数组合并时，会造成很大的内存浪费，所以这个方法肯定不是最好的。
+
+### 方法 2 for循环
+
+大概的思路是：遍历其中一个数组，把该数组中的所有元素依次添加到另外一个数组中。直接上代码：
+
+这样的写法可以解决第一种方案中对内存的浪费，但是会有另一个问题：丑！这么说不是没有道理，如果能只用一行代码就搞定，岂不快哉~
+
+### 方法 3 apply
+
+函数的apply方法有一个特性，那就是
+
+```JS
+func.apply(obj,argv)，
+// obj  被添加的数组
+// argv 是一个数组
+```
+
+调用a.push这个函数实例的apply方法，同时把，b当作参数传入，这样a.push这个方法就会遍历b数组的所有元素，达到合并的效果。
+
+　　　　这里可能有点绕，我们可以把b看成[4,5,6]，变成这样：
+
+a.push.apply(a,[4,5,6]);
+            然后上面的操作就等同于：
+
+a.push(4,5,6);
+　　　　这样就很清楚了！
+
+### 总结
+
+另外，还要注意两个小问题：
+
+* 1 以上3种合并方法并没有考虑过a、b两个数组谁的长度更小。
+所以好的做法是预先判断a、b两个数组哪个更大，然后使用大数组合并小数组，这样就减少了数组元素操作的次数！
+* 2 有时候我们不希望原数组（a、b）改变，这时就只能使用concat了。
 
 ## 参考链接
 
@@ -294,3 +570,4 @@ var arr = Array.prototype.slice.call('abc');arr.forEach(function (chr) {  consol
 - Axel Rauschmayer, [JavaScript: sparse arrays vs. dense arrays](http://www.2ality.com/2012/06/dense-arrays.html)
 - Felix Bohm, [What They Didn’t Tell You About ES5′s Array Extras](http://net.tutsplus.com/tutorials/javascript-ajax/what-they-didnt-tell-you-about-es5s-array-extras/)
 - Juriy Zaytsev, [How ECMAScript 5 still does not allow to subclass an array](http://perfectionkills.com/how-ecmascript-5-still-does-not-allow-to-subclass-an-array/)
+- [JavaScript 数组遍历方法的对比](https://juejin.cn/post/6844903538175262734)

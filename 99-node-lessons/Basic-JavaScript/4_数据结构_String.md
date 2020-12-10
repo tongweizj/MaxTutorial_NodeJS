@@ -208,6 +208,175 @@ btoa('你好') // 报错
 function b64Encode(str) {  return btoa(encodeURIComponent(str));}function b64Decode(str) {  return decodeURIComponent(atob(str));}b64Encode('你好') // "JUU0JUJEJUEwJUU1JUE1JUJE"b64Decode('JUU0JUJEJUEwJUU1JUE1JUJE') // "你好"
 ```
 
+## Quoting Strings with Single Quotes
+
+https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/basic-javascript/quoting-strings-with-single-quotes
+
+String values in JavaScript may be written with single or double quotes, as long as you start and end with the same type of quote. 
+
+Unlike some other programming languages, single and double quotes work the same in JavaScript.
+
+```js
+doubleQuoteStr = "This is a string"; 
+singleQuoteStr = 'This is also a string';
+```
+
+The reason why you might want to use one type of quote over the other is if you want to use both in a string. This might happen if you want to save a conversation in a string and have the conversation in quotes. 
+
+Another use for it would be saving an <a> tag with various attributes in quotes, all within a string.
+
+```js
+conversation = 'Finn exclaims to Jake, "Algebraic!"';
+```
+
+However, this becomes a problem if you need to use the outermost quotes within it. Remember, a string has the same kind of quote at the beginning and end. But if you have that same quote somewhere in the middle, the string will stop early and throw an error.
+
+```js
+goodStr = 'Jake asks Finn, "Hey, let\'s go on an adventure?"'; 
+badStr = 'Finn responds, "Let's go!"'; // Throws an error
+
+```
+
+In the goodStr above, you can use both quotes safely by using the backslash \ as an escape character. 
+Note The backslash \ should not be confused with the forward slash /. They do not do the same thing.
+
+
+## 转意Escape Sequences in Strings
+Quotes are not the only characters that can be escaped inside a string. There are two reasons to use escaping characters:
+
+To allow you to use characters you may not otherwise be able to type out, such as a carriage return.
+To allow you to represent multiple quotes in a string without JavaScript misinterpreting what you mean.
+We learned this in the previous challenge.
+Code	Output
+\'	single quote
+\"	double quote
+\\	backslash
+\n	newline
+\r	carriage return
+\t	tab
+\b	word boundary
+\f	form feed
+Note that the backslash itself must be escaped in order to display as a backslash.
+
+## Concatenating Strings with Plus Operator
+In JavaScript, when the + operator is used with a String value, it is called the concatenation operator. You can build a new string out of other strings by concatenating them together.
+
+Example
+
+'My name is Alan,' + ' I concatenate.'
+Note
+Watch out for spaces. Concatenation does not add spaces between concatenated strings, so you'll need to add them yourself.
+
+Example:
+
+```js
+var ourStr = "I come first. " + "I come second.";
+// ourStr is "I come first. I come second."
+```
+## Concatenating Strings with the Plus Equals Operator
+We can also use the += operator to concatenate a string onto the end of an existing string variable. This can be very helpful to break a long string over several lines.
+
+Note
+Watch out for spaces. Concatenation does not add spaces between concatenated strings, so you'll need to add them yourself.
+
+Example:
+```js
+var ourStr = "I come first. ";
+ourStr += "I come second.";
+// ourStr is now "I come first. I come second."
+```
+## Constructing Strings with Variables
+Sometimes you will need to build a string, Mad Libs style. By using the concatenation operator (+), you can insert one or more variables into a string you're building.
+
+Example:
+```js
+var ourName = "freeCodeCamp";
+var ourStr = "Hello, our name is " + ourName + ", how are you?";
+// ourStr is now "Hello, our name is freeCodeCamp, how are you?"
+```
+
+Appending Variables to Strings
+Just as we can build a string over multiple lines out of string literals, we can also append variables to a string using the plus equals (+=) operator.
+
+Example:
+
+```js
+var anAdjective = "awesome!";
+var ourStr = "freeCodeCamp is ";
+ourStr += anAdjective;
+// ourStr is now "freeCodeCamp is awesome!"
+
+```
+## Find the Length of a String
+You can find the length of a String value by writing .length after the string variable or string literal.
+
+"Alan Peter".length; // 10
+
+For example, if we created a variable var firstName = "Charles", we could find out how long the string "Charles" is by using the firstName.length property.
+
+## Use Bracket Notation to Find the First Character in a String
+
+Bracket notation is a way to get a character at a specific index within a string.
+
+Most modern programming languages, like JavaScript, don't start counting at 1 like humans do. They start at 0. This is referred to as Zero-based indexing.
+
+For example, the character at index 0 in the word "Charles" is "C". So if var firstName = "Charles", you can get the value of the first letter of the string by using firstName[0].
+
+Example:
+
+```js
+var firstName = "Charles";
+var firstLetter = firstName[0]; // firstLetter is "C"
+```
+
+## Understand String Immutability
+
+In JavaScript, String values are immutable, which means that they cannot be altered once created.
+
+For example, the following code:
+
+```js
+var myStr = "Bob";
+myStr[0] = "J";
+```
+
+cannot change the value of myStr to "Job", because the contents of myStr cannot be altered. Note that this does not mean that myStr cannot be changed, just that the individual characters of a string literal cannot be changed. The only way to change myStr would be to assign it with a new string, like this:
+
+```js
+var myStr = "Bob";
+myStr = "Job";
+```
+
+## Use Bracket Notation to Find the Nth Character in a String
+
+You can also use bracket notation to get the character at other positions within a string.
+
+Remember that computers start counting at 0, so the first character is actually the zeroth character.
+
+Example:
+```js
+var firstName = "Ada";
+var secondLetterOfFirstName = firstName[1]; // secondLetterOfFirstName is "d"
+```
+
+## Word Blanks
+
+We will now use our knowledge of strings to build a "Mad Libs" style word game we're calling "Word Blanks". 
+You will create an (optionally humorous) "Fill in the Blanks" style sentence.
+
+In a "Mad Libs" game, you are provided sentences with some missing words, 
+like nouns, verbs, adjectives and adverbs. 
+
+You then fill in the missing pieces with words of your choice in a way that the completed sentence makes sense.
+
+Consider this sentence - "It was really ____, and we ____ ourselves ____". 
+This sentence has three missing pieces- an adjective, a verb and an adverb, and we can add words of our choice to complete it. We can then assign the completed sentence to a variable as follows:
+
+```js
+var sentence = "It was really " + "hot" + ", and we " + "laughed" + " ourselves " + "silly" + ".";
+
+```
+
 ## 参考链接
 
 - Mathias Bynens, [JavaScript’s internal character encoding: UCS-2 or UTF-16?](http://mathiasbynens.be/notes/javascript-encoding)
