@@ -143,8 +143,13 @@ var s = 'hello';delete s[0];s // "hello"s[1] = 'a';s // "hello"s[5] = '!';s // "
 
 `length`属性返回字符串的长度，该属性也是无法改变的。
 
-```
-var s = 'hello';s.length // 5s.length = 3;s.length // 5s.length = 7;s.length // 5
+```JS
+var s = 'hello';
+s.length // 5
+s.length = 3;
+s.length // 5
+s.length = 7;
+s.length // 5
 ```
 
 上面代码表示字符串的`length`属性无法改变，但是不会报错。
@@ -273,6 +278,7 @@ Example:
 var ourStr = "I come first. " + "I come second.";
 // ourStr is "I come first. I come second."
 ```
+
 ## Concatenating Strings with the Plus Equals Operator
 We can also use the += operator to concatenate a string onto the end of an existing string variable. This can be very helpful to break a long string over several lines.
 
@@ -285,7 +291,9 @@ var ourStr = "I come first. ";
 ourStr += "I come second.";
 // ourStr is now "I come first. I come second."
 ```
+
 ## Constructing Strings with Variables
+
 Sometimes you will need to build a string, Mad Libs style. By using the concatenation operator (+), you can insert one or more variables into a string you're building.
 
 Example:

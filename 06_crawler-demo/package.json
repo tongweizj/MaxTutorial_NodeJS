@@ -1,19 +1,16 @@
 {
-  "name": "code",
+  "name": "crawlerDemo",
   "version": "1.0.0",
   "description": "",
-  "main": "hello.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
-  },
-  "prettier": {
-    "stylelintIntegration": true,
-    "eslintIntegration": true,
-    "singleQuote": true
+    "crawler": "^1.3.0",
+    "stream": "0.0.2",
+    "winston": "^3.3.3"
   }
 }
