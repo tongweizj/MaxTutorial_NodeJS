@@ -1,5 +1,4 @@
-
-
+# Boolean 布尔值
 
 ## 布尔值
 
@@ -22,19 +21,52 @@
 
 布尔值往往用于程序流程的控制，请看一个例子。
 
-```
-if ('') {  console.log('true');}// 没有任何输出
+```JS
+if ('') {
+  console.log('true');
+}// 没有任何输出
+
 ```
 
 上面代码中，`if`命令后面的判断条件，预期应该是一个布尔值，所以 JavaScript 自动将空字符串，转为布尔值`false`，导致程序不会进入代码块，所以没有任何输出。
 
-注意，空数组（`[]`）和空对象（`{}`）对应的布尔值，都是`true`。
+**注意**
+空数组（`[]`）和空对象（`{}`）对应的布尔值，都是`true`。
 
-```
-if ([]) {  console.log('true');}// trueif ({}) {  console.log('true');}// true
+```JS
+if ([]) {
+  console.log('true');
+  }// true
+
+if ({}) {
+  console.log('true');
+}// true
 ```
 
 更多关于数据类型转换的介绍，参见《数据类型转换》一章。
+
+## 返回'布尔值'
+
+`错误写法`
+
+```JS
+function isEqual(a,b) {
+  if (a === b) {
+    return true;
+  } else {
+    return false;
+  }
+}
+```
+
+But there's a better way to do this. Since === returns true or false, we can return the result of the comparison:
+`Good`
+
+```JS
+function isEqual(a,b) {
+  return a === b;
+}
+```
 
 ## 参考链接
 

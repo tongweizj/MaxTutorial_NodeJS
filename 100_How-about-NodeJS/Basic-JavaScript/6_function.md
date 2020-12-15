@@ -143,3 +143,16 @@ baba(say, "Hello， jerry，I am baba");
 mama(say, "Hello， jerry，I am mama");
 
 ```
+
+## Return
+
+return 一旦执行,后面的语句就挑过
+
+```JS
+function myFun() {
+  console.log("Hello");
+  return "World";
+  console.log("byebye")
+}
+myFun();
+```

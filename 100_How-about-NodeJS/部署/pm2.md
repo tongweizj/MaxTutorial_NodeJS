@@ -10,14 +10,35 @@ PM2 是 node 进程管理工具，可以利用它来简化很多 node应用管�
 npm install -g pm2
 ```
 
-## 快速使用
-
-```
-pm2 start app.js
-```
-
 ## 常用命令
 
+```bash
+# 启动
+pm2 start app.js
+
+# 重启
+pm2 restart app_name|app_id
+
+# 停止
+pm2 stop app_name|app_id
+
+# 停止全部
+pm2 stop all
+
+# list all processes
+pm2 list|ls                                                     
+    l                                                            
+    ps                                                          
+    status                                       
+
+# pm2 delete [appname] | id
+pm2 delete app  // 指定进程名删除
+pm2 delete 0    // 指定进程id删除
+
+```
+
+
+## 命令解释
 ### 启动
 
 参数说明：
@@ -30,45 +51,8 @@ pm2 start app.js
 - `e --error <path>`：错误输出日志文件的路径。
 - `-interpreter <interpreter>`：the interpreter pm2 should use for executing app (bash, python...)。比如你用的coffee script来编写应用。
 
-### 常用命令
 
-```
-# list all processes
-pm2 list|ls                                                     
-    l                                                            
-    ps                                                          
-    status                                       
-
-# 重启
-pm2 restart app_name|app_id
-
-# 停止
-pm2 stop app_name|app_id
-
-# 停止全部
-pm2 stop all
-```
-
-### 3.3
-
-### 停止
-
-类似`pm2 stop`，如下
-
-### 从进程列表删除进程
-
-```
-// pm2 delete [appname] | id
-pm2 delete app  // 指定进程名删除
-pm2 delete 0    // 指定进程id删除
-
-```
-
-### 删除进程列表中所有进程
-
-### 查看进程状态
-
-### 查看某个进程的信息
+## 功能说明
 
 ### 负载均衡
 
@@ -88,7 +72,8 @@ pm2 start app.js -i max # 根据机器CPU核数，开启对应数目的进程
 
 ### 开机自动启动
 
-可以通过`pm2 startup`来实现开机自启动。细节可[参考](https://links.jianshu.com/go?to=http%3A%2F%2Fpm2.keymetrics.io%2Fdocs%2Fusage%2Fstartup%2F)。大致流程如下
+可以通过`pm2 startup`来实现开机自启动。
+细节可[参考](https://links.jianshu.com/go?to=http%3A%2F%2Fpm2.keymetrics.io%2Fdocs%2Fusage%2Fstartup%2F)。大致流程如下
 
 1. 通过`pm2 save`保存当前进程状态。
 2. 通过`pm2 startup [platform]`生成开机自启动的命令。（记得查看控制台输出）
@@ -98,7 +83,9 @@ pm2 start app.js -i max # 根据机器CPU核数，开启对应数目的进程
 
 运行如下命令，查看当前通过pm2运行的进程的状态。
 
-## 通过pm2配置文件来自动部署项目
+## 自动部署项目
+
+通过pm2配置文件来自动部署项目
 
 ### 在项目根目录下新建一个 deploy.yaml 文件
 
@@ -183,3 +170,6 @@ pm2 deploy deploy.yaml production upddate
 ## 其他资料
 
 [https://pm2.io/doc/zh/runtime/overview/](https://links.jianshu.com/go?to=https%3A%2F%2Fpm2.io%2Fdoc%2Fzh%2Fruntime%2Foverview%2F)
+
+
+https://blog.csdn.net/weixin_41949144/article/details/108493269?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-5.control
