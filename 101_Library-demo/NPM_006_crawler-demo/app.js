@@ -1,5 +1,6 @@
 'use strict';
 
-const Scheduler = require('./controllers/scheduler');
-
-Scheduler.start();
+// const Scheduler = require('./crawler/scheduler');
+// Scheduler.start();
+const Work = require('./controllers/work');
+Work.start();

@@ -1,7 +1,7 @@
 'use strict';
 
 const Crawler = require('crawler');
-const TaskQueue = require('./task-queue');
+const TaskQueue = require('./task');
 const logger = require('../utils/log');
 
 // Scheduler 调度器
@@ -23,17 +23,24 @@ class Scheduler {
   }
   /// 开始单次任务的调度
   schedule(task) {
-    logger.log('info', 'log3 schedule 开始执行 %s', 'my string');
-    this.crawler.queue({ uri: task.uri, callback: task.callback });
+    if (!task.success && task.tryTimes < 3) {
+      task.tryTimes++;
+      logger.log('info', 'log3 schedule 开始执行 %s', 'my string');
+      this.crawler.queue({ uri: task.uri, callback: task.callback });
+    }
   }
 
   // 入口
   // 整理出任务清单,并把任务传递给调度
   start() {
     // 整理任务清单
-    this.taskQueue.forEach((task) => {
-      this.schedule(task);
-    });
+    // this.taskQueue.forEach((task) => {
+    //   this.schedule(task);
+    // });
+    const x = this.taskQueue.length;
+    for (let i = 0; i < x; i++) {
+      this.schedule(this.taskQueue[i]);
+    }
   }
 }
 // 开始
@@ -50,7 +57,7 @@ exports.start = function start() {
     }
     done();
   };
-  let uriList = ['http://11111www.google.com', 'http://www.yahoo.com'];
+  let uriList = ['http://www.google.com', 'http://www.yahoo.com'];
   let taskQueue = TaskQueue.from(uriList, callback);
   logger.log('info', 'log1.', { label: 'indeed' });
   logger.log('error', 'Important error: ', new Error('Error passed as meta'));

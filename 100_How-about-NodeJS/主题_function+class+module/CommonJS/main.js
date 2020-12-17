@@ -1,5 +1,5 @@
-var Hello = require('./hello');
-var hello2 = require('./hello2');
+var mOne = require('../example/c-hello');
+var mTwo = require('./m-two');
 
 hello2.world();
 hello2.cool();
