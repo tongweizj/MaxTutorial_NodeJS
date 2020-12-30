@@ -15,8 +15,6 @@ Node.js 提供了 exports 和 require 两个对象，其中 exports 是模块公
 - function()
 - JOSN
 
-
-
 ### function()
 
 #### 封装方式 1

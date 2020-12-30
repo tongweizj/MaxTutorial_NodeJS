@@ -1,5 +1,6 @@
 const logger = require('../utils/log');
 const randomUseragent = require('random-useragent');
+const Crawler = require('crawler');
 /**
  * Task
  * TAsk = 采集某一个网站, 甚至特定页面的具体任务
@@ -16,29 +17,25 @@ class Task {
     this.jQuery = false;
     this.tryTimes = 0;
     this.callback = item.callback;
-    this.success = false;
-  }
-
-  static getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
   }
 }
 // module.exports = Task;
 class TaskQueue {
   constructor() {
     this.tasks = [];
+    this.count = 0;
   }
 
-  static from(uriList, callback) {
-    // 建一个空列表
+  static start(uriList, callback) {
     var taskQueue = new TaskQueue();
     // [] 分割出来
     uriList.forEach((item) => {
       // console.log(item.uri);
       taskQueue.addTask(new Task({ uri: item, callback: callback }));
     });
+    taskQueue.count = uriList.length;
 
-    return taskQueue.tasks;
+    return taskQueue;
   }
 
   list() {
