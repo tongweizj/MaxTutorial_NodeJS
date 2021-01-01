@@ -385,6 +385,45 @@ var sentence = "It was really " + "hot" + ", and we " + "laughed" + " ourselves 
 
 ```
 
+## 截取字符串
+
+- substring() 方法；
+- substr() 方法；
+- slice() 方法；
+
+### 方法1：substring() 方法
+
+string.substring(from, to) 
+
+- 从 from 位置截取到 to 位置，
+- to 可选，没有设置时默认到末尾。
+
+```JS
+var str="www.runoob.com!";
+str.substring(4); // 从第 5 个字符开始截取到末尾
+str.substring(4,10); // 从第 5 个字符开始截取到第10个字符
+
+```
+
+### 方法2：substr() 方法
+
+substr() 方法可在字符串中截取从开始下标开始的指定数目的字符。
+
+```JS
+var str="www.runoob.com!";
+document.write(str.substr(4,6)); // 从第 4 个字符开始截取6个字符
+```
+
+### 方法3：slice() 方法
+
+slice(start,end) 方法用于提取字符串的某个部分（从参数 start 到 end 位置），并以新的字符串返回被提取的部分。类似 substring()。
+
+```JS
+var str="www.runoob.com!";
+str.slice(4); // 从第 5 个字符开始截取到末尾
+str.slice(4,10); // 从第 5 个字符开始截取到第10个字符
+```
+
 ## 参考链接
 
 - Mathias Bynens, [JavaScript’s internal character encoding: UCS-2 or UTF-16?](http://mathiasbynens.be/notes/javascript-encoding)

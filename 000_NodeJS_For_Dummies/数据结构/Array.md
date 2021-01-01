@@ -221,8 +221,9 @@ arr.0 // SyntaxError
 
 当数组的某个位置是空元素，即两个逗号之间没有任何值，我们称该数组存在空位（hole）。
 
-```
-var a = [1, , 1];a.length // 3
+```JS
+var a = [1, , 1];
+a.length // 3
 ```
 
 上面代码表明，数组的空位不影响`length`属性。
@@ -467,6 +468,12 @@ let thatArray = ['basil', 'cilantro', ...thisArray, 'coriander'];
 // thatArray now equals ['basil', 'cilantro', 'sage', 'rosemary', 'parsley', 'thyme', 'coriander']
 ```
 
+### fill 填充
+
+```JS
+Array(5).fill(2)
+//=> [2, 2, 2, 2, 2]
+```
 ## 数组元素判断
 
 ### indexOf()
@@ -521,6 +528,16 @@ arr[100] = 'a';
 ```
 
 上面代码中，数组`arr`只有一个成员`arr[100]`，其他位置的键名都会返回`false`。
+
+
+### search()
+
+```JS
+var str = "123";
+console.log(str.search("3") != -1 );  // true
+```
+
+search() 方法用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。如果没有找到任何匹配的子串，则返回 -1。
 
 ## 3. Iterate 遍历
 
