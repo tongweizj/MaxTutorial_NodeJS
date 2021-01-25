@@ -1,6 +1,6 @@
-# array
+# 1. array
 
-## Index
+## 1.1. Index
 
 - Array
   - 1.基本概念
@@ -21,13 +21,13 @@
     - Create complex multi-dimensional arrays
   - 5.常用操作
 
-## 1. 基本概念
+## 1.2. 基本概念
 
-### 定义
+### 1.2.1. 定义
 
 数组（array）是按次序排列的一组值。每个值的位置都有编号（从0开始），整个数组用方括号表示。
 
-### 值得范围
+### 1.2.2. 值得范围
 
 - booleans
 - strings
@@ -43,7 +43,103 @@ console.log(simpleArray.length);
 
 ```
 
-### 赋值和读取
+## 1.3. 创建数组
+
+### 1.3.1. 使用数组字面量表示法
+
+```JS
+var arr4 = [];   //创建一个空数组
+var arr5 = [20];   // 创建一个包含1项数据为20的数组
+var arr6 = ["lily","lucy","Tom"];   // 创建一个包含3个字符串的数组
+```
+
+### 1.3.2.  使用 Array 构造函数
+
+无参构造
+
+```JS
+var arr1 = new Array();   //创建一个空数组
+```
+
+带参构造
+如果只传一个数值参数，则表示创建一个初始长度为指定数值的空数组
+
+```JS
+var arr2 = new Array(20);   // 创建一个包含20项的数组
+```
+
+如果传入一个非数值的参数或者参数个数大于 1，则表示创建一个包含指定元素的数组
+
+```JS
+var arr3 = new Array("lily","lucy","Tom");   // 创建一个包含3个字符串的数组
+var array4 = new Array('23'); // ["23"]
+```
+
+### 1.3.3. Array.of 方法创建数组(es6 新增)
+
+ES6 为数组新增创建方法的目的之一，是帮助开发者在使用 Array 构造器时避开 js 语言的一个怪异点。
+
+Array.of()方法总会创建一个包含所有传入参数的数组，而不管参数的数量与类型。
+
+```JS
+let arr = Array.of(1, 2);
+console.log(arr.length);//2
+
+let arr1 = Array.of(3);
+console.log(arr1.length);//1
+console.log(arr1[0]);//3
+
+let arr2 = Array.of('2');
+console.log(arr2.length);//1
+console.log(arr2[0]);//'2'
+```
+
+### 1.3.4. Array.from 方法创建数组(es6 新增)
+
+在 js 中将非数组对象转换为真正的数组是非常麻烦的。在 ES6 中，将可迭代对象或者类数组对象作为第一个参数传入，Array.from()就能返回一个数组。
+
+```JS
+function arga(...args) {  //...args剩余参数数组,由传递给函数的实际参数提供
+    let arg = Array.from(args);
+    console.log(arg);
+}
+
+arga('arr1', 26, 'from'); // ['arr1',26,'from']
+```
+
+映射转换
+如果你想实行进一步的数组转换，你可以向 Array.from()方法传递一个映射用的函数作为第二个参数。此函数会将数组对象的每一个值转换为目标形式，并将其存储在目标数组的对应位置上。
+
+```JS
+function arga(...args) {  
+     return Array.from(args, value => value + 1);
+}
+
+let arr = arga('arr', 26, 'pop');
+console.log(arr);//['arr1',27,'pop1']
+```
+
+如果映射函数需要在对象上工作，你可以手动传递第三个参数给 Array.from()方法，从而指定映射函数内部的 this 值
+
+```JS
+const helper = {
+  diff: 1,
+  add(value) {
+    return value + this.diff;
+  }
+}
+
+function translate() {
+ //arguments 是一个对应于传递给函数的参数的类数组对象
+  return Array.from(arguments, helper.add, helper); 
+}
+
+let arr = translate('liu', 26, 'man');
+console.log(arr); // ["liu1", 27, "man1"]
+```
+
+
+## 1.4. 赋值和读取
 
 ```JS
 var arr = ['a', 'b', 'c'];
@@ -72,7 +168,7 @@ arr[2] // function (){return true;}
 
 上面数组`arr`的3个成员依次是对象、数组、函数。
 
-### length 属性
+### 1.4.1. length 属性
 
 数组的`length`属性，返回数组的成员数量。
 
@@ -166,7 +262,7 @@ arr[Math.pow(2, 32)] = 'b';arr.length // 0arr[-1] // "a"arr[4294967296] // "b"
 上面代码中，我们为数组`arr`添加了两个不合法的数字键，结果`length`属性没有发生变化。这些数字键都变成了字符串键名。最后两行之所以会取到值，是因为取键值时，数字键名会默认转为字符串。
 
 
-### 一种特殊的对象
+### 1.4.2. 一种特殊的对象
 
 本质上，数组属于一种特殊的对象。`typeof`运算符会返回数组的类型是`object`。
 
@@ -217,7 +313,7 @@ arr.0 // SyntaxError
 上面代码中，`arr.0`的写法不合法，因为单独的数值不能作为标识符（identifier）。
 所以，数组成员只能用方括号`arr[0]`表示（方括号是运算符，可以接受数值）。
 
-### 数组的空位
+### 1.4.3. 数组的空位
 
 当数组的某个位置是空元素，即两个逗号之间没有任何值，我们称该数组存在空位（hole）。
 
@@ -264,7 +360,7 @@ var a = [undefined, undefined, undefined];a.forEach(function (x, i) {  console.l
 
 这就是说，空位就是数组没有这个元素，所以不会被遍历到，而`undefined`则表示数组有这个元素，值是`undefined`，所以遍历不会跳过。
 
-### 类似数组的对象
+### 1.4.4. 类似数组的对象
 
 如果一个对象的所有键名都是正整数或零，并且有`length`属性，那么这个对象就很像数组，语法上称为“类似数组的对象”（array-like object）。
 
@@ -324,374 +420,7 @@ var arr = Array.prototype.slice.call('abc');arr.forEach(function (chr) {  consol
 
 
 
-## 2. 操作数组的常用方法
-
-### push
-
-```JS
-var arr1 = [1,2,3];
-arr1.push(4);
-// arr1 is now [1,2,3,4]
-
-var arr2 = ["Stimpson", "J", "cat"];
-arr2.push(["happy", "joy"]);
-// arr2 now equals ["Stimpson", "J", "cat", ["happy", "joy"]]
-
-```
-
-### pop()
-
-pop 的结果
-
-1. 读出数组的最后一个元素
-2. 同时删掉这个元素
-
-```JS
-var threeArr = [1, 4, 6];
-var oneDown = threeArr.pop();
-console.log(oneDown); // Returns 6
-console.log(threeArr); // Returns [1, 4]
-
-```
-
-### shift()
-
-1. 读出数组的 0 号位,
-2. 同时删掉这个元素
-
-```JS
-var ourArray = ["Stimpson", "J", ["cat"]];
-var removedFromOurArray = ourArray.shift();
-// removedFromOurArray now equals "Stimpson" and ourArray now equals ["J", ["cat"]].
-
-```
-
-### unshift()
-
-在数组的 0 号位,插入值
-
-```JS
-var ourArray = ["Stimpson", "J", "cat"];
-ourArray.shift(); // ourArray now equals ["J", "cat"]
-ourArray.unshift("Happy");
-// ourArray now equals ["Happy", "J", "cat"]
-
-```
-
-### splice()
-
-#### 删除一部分
-
-- 读取出数组中的一部分
-- 并删除掉
-
-Ok, so we've learned how to remove elements from the beginning and end of arrays using shift() and pop(), but what if we want to remove an element from somewhere in the middle? Or remove more than one element at once? Well, that's where splice() comes in. splice() allows us to do just that: remove any number of consecutive elements from anywhere in an array.
-
-splice() can take up to 3 parameters, but for now, we'll focus on just the first 2. The first two parameters of splice() are integers which represent indexes, or positions, of the array that splice() is being called upon. And remember, arrays are zero-indexed, so to indicate the first element of an array, we would use 0. splice()'s first parameter represents the index on the array from which to begin removing elements, while the second parameter indicates the number of elements to delete. For example:
-
-```JS
-let array = ['today', 'was', 'not', 'so', 'great'];
-
-array.splice(2, 2);
-// remove 2 elements beginning with the 3rd element
-// array now equals ['today', 'was', 'great']
-```
-
-splice() not only modifies the array it's being called on, but it also returns a new array containing the value of the removed elements:
-
-```JS
-let array = ['I', 'am', 'feeling', 'really', 'happy'];
-
-let newArray = array.splice(3, 2);
-// newArray equals ['really', 'happy']
-```
-
-#### 删除并添加数据
-
-Add Items Using splice()
-
-Remember in the last challenge we mentioned that splice() can take up to three parameters? Well, you can use the third parameter, comprised of one or more element(s), to add to the array. This can be incredibly useful for quickly switching out an element, or a set of elements, for another.
-
-```JS
-const numbers = [10, 11, 12, 12, 15];
-const startIndex = 3;
-const amountToDelete = 1;
-
-numbers.splice(startIndex, amountToDelete, 13, 14);
-// the second entry of 12 is removed, and we add 13 and 14 at the same index
-console.log(numbers);
-// returns [ 10, 11, 12, 13, 14, 15 ]
-```
-
-Here we begin with an array of numbers. We then pass the following to splice(). The index at which to begin deleting elements (3), the number of elements to be deleted (1), and the elements (13, 14) to be inserted at that same index. Note that there can be any number of elements (separated by commas) following amountToDelete, each of which gets inserted.
-
-### slice()
-
-Copy Array Items Using slice()
-The next method we will cover is slice(). Rather than modifying an array, slice() copies or extracts a given number of elements to a new array, leaving the array it is called upon untouched. slice() takes only 2 parameters — the first is the index at which to begin extraction, and the second is the index at which to stop extraction (extraction will occur up to, but not including the element at this index). Consider this:
-
-```JS
-let weatherConditions = ['rain', 'snow', 'sleet', 'hail', 'clear'];
-
-let todaysWeather = weatherConditions.slice(1, 3);
-// todaysWeather equals ['snow', 'sleet'];
-// weatherConditions still equals ['rain', 'snow', 'sleet', 'hail', 'clear']
-```
-
-In effect, we have created a new array by extracting elements from an existing array.
-
-### '...'
-
-Copy an Array with the Spread Operator
-用展点运算符复制一个数组
-
-While slice() allows us to be selective about what elements of an array to copy, among several other useful tasks, ES6's new spread operator allows us to easily copy all of an array's elements, in order, with a simple and highly readable syntax. The spread syntax simply looks like this: ...
-虽然slice()允许我们有选择地复制一个数组中的哪些元素，以及其他一些有用的任务，但ES6新的spread操作符允许我们用一种简单且高度可读的语法轻松地按顺序复制一个数组的所有元素。展开语法简单地看起来像这样：......
-
-In practice, we can use the spread operator to copy an array like so:
-
-```JS
-let thisArray = [true, true, undefined, false, null];
-let thatArray = [...thisArray];
-// thatArray equals [true, true, undefined, false, null]
-// thisArray remains unchanged and thatArray contains the same elements as thisArray
-```
-
-#### Combine Arrays with the Spread Operator
-
-Another huge advantage of the spread operator, is the ability to combine arrays, or to insert all the elements of one array into another, at any index. With more traditional syntaxes, we can concatenate arrays, but this only allows us to combine arrays at the end of one, and at the start of another. Spread syntax makes the following operation extremely simple:
-
-```JS
-let thisArray = ['sage', 'rosemary', 'parsley', 'thyme'];
-
-let thatArray = ['basil', 'cilantro', ...thisArray, 'coriander'];
-// thatArray now equals ['basil', 'cilantro', 'sage', 'rosemary', 'parsley', 'thyme', 'coriander']
-```
-
-### fill 填充
-
-```JS
-Array(5).fill(2)
-//=> [2, 2, 2, 2, 2]
-```
-## 数组元素判断
-
-### indexOf()
-
-返回值所在位置
-
-Using spread syntax, we have just achieved an operation that would have been more complex and more verbose had we used traditional methods.
-
-Check For The Presence of an Element With indexOf()
-Since arrays can be changed, or mutated, at any time, there's no guarantee about where a particular piece of data will be on a given array, or if that element even still exists. Luckily, JavaScript provides us with another built-in method, indexOf(), that allows us to quickly and easily check for the presence of an element on an array. indexOf() takes an element as a parameter, and when called, it returns the position, or index, of that element, or -1 if the element does not exist on the array.
-用indexOf()检查元素的存在性
-由于数组可以在任何时候被改变或突变，所以无法保证某个特定的数据在一个给定的数组中的位置，或者这个元素是否仍然存在。幸运的是，JavaScript为我们提供了另一个内置的方法，**indexOf()，它允许我们快速而方便地检查一个数组上是否存在一个元素。**indexOf()将一个元素作为参数，当调用时。
-
-For example:
-
-```JS
-let fruits = ['apples', 'pears', 'oranges', 'peaches', 'pears'];
-
-fruits.indexOf('dates'); // returns -1 表示没有这个= -1值
-fruits.indexOf('oranges'); // returns 2 2 是位置
-fruits.indexOf('pears'); // returns 1, 如果有 2 个,就显示第一个的位置 the first index at which the element exists
-```
-
-### 键值 in 运算符
-
-检查某个键名是否存在的运算符`in`，
-不是值
-适用于对象，也适用于数组。
-
-```JS
-var arr = [ 'a', 'b', 'c' ];
-2 in arr  // true
-'2' in arr // true
-4 in arr // false
-
-// 两者是等价的
-[ 'a', 'b', 'c' ]
-{ '1': 'a', '2': 'b', '3': 'c' }
-```
-
-
-上面代码表明，数组存在键名为`2`的键。
-由于键名都是字符串，所以数值`2`会自动转成字符串。
-
-注意，如果数组的某个位置是空位，`in`运算符返回`false`。
-
-```JS
-var arr = [];
-arr[100] = 'a';
-100 in arr // true
-1 in arr // false
-```
-
-上面代码中，数组`arr`只有一个成员`arr[100]`，其他位置的键名都会返回`false`。
-
-
-### search()
-
-```JS
-var str = "123";
-console.log(str.search("3") != -1 );  // true
-```
-
-search() 方法用于检索字符串中指定的子字符串，或检索与正则表达式相匹配的子字符串。如果没有找到任何匹配的子串，则返回 -1。
-
-## 3. Iterate 遍历
-
-- for
-- every()
-- forEach()
-- map()
-
-### For
-
-#### For
-
-```JS
-function greaterThanTen(arr) {
-  let newArr = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i] > 10) {
-      newArr.push(arr[i]);
-    }
-  }
-  return newArr;
-}
-
-greaterThanTen([2, 12, 8, 14, 80, 0, 1]);
-// returns [12, 14, 80]
-```
-
-Using a for loop, this function iterates through and accesses each element of the array, and subjects it to a simple test that we have created. In this way, we have easily and programmatically determined which data items are greater than 10, and returned a new array containing those items.
-
-**题**
-We have defined a function, filteredArray, which takes arr, a nested array, and elem as arguments, and returns a new array.
-elem represents an element that may or may not be present on one or more of the arrays nested within arr.
-
-Modify the function, using a for loop, to return a filtered version of the passed array such that any array nested within arr containing elem has been removed.
-
-我们定义了一个函数 filteredArray，它以 arr、一个嵌套数组和 elem 作为参数，并返回一个新数组。
-elem代表一个元素，这个元素可能存在于一个或多个嵌套在arr中的数组中，也可能不存在。
-
-修改函数，使用for循环，返回一个过滤后的数组，使任何嵌套在arr中的包含elem的数组被删除
-
-#### for…in
-
-`for...in`循环不仅可以遍历对象，也可以遍历数组，毕竟数组只是一种特殊对象。
-
-```JS
-var a = [1, 2, 3];
-for (var i in a) {
-    console.log(a[i]);
-}// 1// 2// 3
-```
-
-但是，`for...in`不仅会遍历数组所有的数字键，还会遍历非数字键。
-
-```JS
-var a = [1, 2, 3];
-a.foo = true;
-for (var key in a) {
-    console.log(key);
-}
-// 0// 1// 2// foo
-
-```
-
-上面代码在遍历数组时，也遍历到了非整数键`foo`。
-所以，不推荐使用`for...in`遍历数组。
-
-数组的遍历可以考虑使用`for`循环或`while`循环。
-
-``` JS
-var a = [1, 2, 3];
-// for循环
-for(var i = 0; i < a.length; i++) {  
-    console.log(a[i]);
-}
-
-// while循环
-var i = 0;
-while (i < a.length) {
-    console.log(a[i]);  
-    i++;
-}
-
-var l = a.length;
-while (l--) {
-    console.log(l + ":" + a[l]);  
-
-}
-
-```
-
-#### for-of 语句 (ES 6)
-
-for-of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments 对象等等）上创建一个迭代循环，调用自定义迭代钩子，并为每个不同属性的值执行语句。只要是一个iterable的对象,就可以通过for-of来迭代.
-代码:
-
-``` JS
-
-var arr = [{name:'bb'},5,'test']
-for (item of arr) {
-    console.log(item)
-}
-```
-
-#### for-of 和 for-in 的区别
-
-for-in 语句以原始插入顺序迭代对象的可枚举属性。
-for-in会把继承链的对象属性都会遍历一遍,所以会更花时间.
-
-for-of 语句只遍历可迭代对象的数据。
-上面代码是三种遍历数组的写法。最后一种写法是逆向遍历，即从最后一个元素向第一个元素遍历。
-
-### forEach
-
-数组的`forEach`方法，也可以用来遍历数组，详见《标准库》的 Array 对象一章。
-
-```JS
-var colors = ['red', 'green', 'blue'];
-colors.forEach(function (color) {
-    console.log(color);
-});// red// green// blue
-```
-
-### map 方法 (不改变原数组)
-
-map 方法会给原数组中的每个元素都按顺序调用一次  callback 函数。
-callback 每次执行后的返回值（包括 undefined）组合起来形成一个新数组。 
-callback 函数只会在有值的索引上被调用；
-那些从来没被赋过值或者使用 delete 删除的索引则不会被调用。让数组通过某种计算产生一个新数组,影射成一个新的数组,
-
-代码:
-
-```JS
-var arr = [1,2,3]
-var newArr = arr.map(current => current * 5)
-
-```
-
-### reduce 方法
-
-让数组中的前项和后项做某种计算,并累计最终值,
-代码:
-
-```JS
-var wallets = [4,7.8,3]
-var totalMoney = wallets.reduce( function (countedMoney, wallet) {
-    return countedMoney + wallet.money;
-}, 0)
-```
-
-```JS
-args.reduce((a,b)=>a+b,0)
-```
-
-## 4. 多维数组
+## 1.5. 多维数组
 
 multi-dimensional array 
 如果数组的元素还是数组，就形成了多维数组。
@@ -715,72 +444,9 @@ arr[3][0][1]; // equals 11
 
 ```
 
-## 5. 常用代码
 
-### 1. 数组合并
 
-代码案例：
-
-```JS
-var a = [1,2,3];
-var b = [4,5,6];
-
-//meth 1
-var c = a.concat(b);
-//c=[1,2,3,4,5,6]
-
-//meth 2
-for(var i in b){
-    a.push(b[i]);
-}
-
-//meth 3
-a.push.apply(a,b);
-
-```
-
-#### 方法 1 concat
-
-js的Array对象提供了一个叫concat()方法，连接两个或更多的数组，并返回结果。
-
-这里有一个问题，concat方法连接a、b两个数组后，a、b两个数组的数据不变，同时会返回一个新的数组。
-这样当我们需要进行多次的数组合并时，会造成很大的内存浪费，所以这个方法肯定不是最好的。
-
-#### 方法 2 for循环
-
-大概的思路是：遍历其中一个数组，把该数组中的所有元素依次添加到另外一个数组中。直接上代码：
-
-这样的写法可以解决第一种方案中对内存的浪费，但是会有另一个问题：丑！这么说不是没有道理，如果能只用一行代码就搞定，岂不快哉~
-
-#### 方法 3 apply
-
-函数的apply方法有一个特性，那就是
-
-```JS
-func.apply(obj,argv)，
-// obj  被添加的数组
-// argv 是一个数组
-```
-
-调用a.push这个函数实例的apply方法，同时把，b当作参数传入，这样a.push这个方法就会遍历b数组的所有元素，达到合并的效果。
-
-　　　　这里可能有点绕，我们可以把b看成[4,5,6]，变成这样：
-
-a.push.apply(a,[4,5,6]);
-            然后上面的操作就等同于：
-
-a.push(4,5,6);
-　　　　这样就很清楚了！
-
-#### 总结
-
-另外，还要注意两个小问题：
-
-1. 以上3种合并方法并没有考虑过a、b两个数组谁的长度更小。
-所以好的做法是预先判断a、b两个数组哪个更大，然后使用大数组合并小数组，这样就减少了数组元素操作的次数！
-2. 有时候我们不希望原数组（a、b）改变，这时就只能使用concat了。
-
-## 参考链接
+## 1.6. 参考链接
 
 - Axel Rauschmayer, [Arrays in JavaScript](http://www.2ality.com/2012/12/arrays.html)
 - Axel Rauschmayer, [JavaScript: sparse arrays vs. dense arrays](http://www.2ality.com/2012/06/dense-arrays.html)
