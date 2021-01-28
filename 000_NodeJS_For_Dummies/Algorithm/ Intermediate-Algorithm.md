@@ -292,32 +292,230 @@ pairElement("GCG");
 
 ## 1.9. Missing letters
 
-```js
+Find the missing letter in the passed letter range and return it.
+If all letters are present in the range, return undefined.
 
+```js
+function fearNotLetter(str) {
+  var allLetter = "abcdefghijklmnopqrstuvwxyz";
+  //1. check is it all letters in the range
+  var missingLetter;
+  if(allLetter.search(str)>=0){
+    return  undefined
+  }
+  // 2. 将比较的字符串取出一头一尾，这是标准答案
+  var standStr = allLetter.slice(allLetter.search(str[0]),allLetter.search([...str].pop())+1)
+  // console.log(standStr);
+  // 3. 将标准答案和要比较的字符串对应，查看缺什么
+  for(let i = 1; i<standStr.length -1; i++){
+    console.log(standStr[i]);
+    if(str.search(standStr[i]) == -1){
+      console.log(str.search(standStr[i]));
+       missingLetter = standStr[i];
+       return standStr[i];
+    }
+  }
+}
+
+
+fearNotLetter("abce");
+fearNotLetter("abcdefghjklmno")
+fearNotLetter("stvwx")
+fearNotLetter("bcdf")
+fearNotLetter("abcdefghijklmnopqrstuvwxyz")
 ```
 
 ## 1.10. Sorted Union
+Write a function that takes two or more arrays and returns a new array of unique values in the order of the original provided arrays.
 
+In other words, all values present from all arrays should be included in their original order, but with no duplicates in the final array.
+
+The unique numbers should be sorted by their original order, but the final array should not be sorted in numerical order.
+
+Check the assertion tests for examples.
 ```js
+function uniteUnique(...arr) {
+  var unique = []
+  arr.map((item)=>{
+    item.map((item)=>{
+      console.log(item)
+      if(item in unique == false){
+        
+        unique.push(item);
+      }
+      
+    })
+  })
+  return unique;
+}
 
 ```
+uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]) should return [1, 3, 2, 5, 4].
+
+Passed
+uniteUnique([1, 2, 3], [5, 2, 1]) should return [1, 2, 3, 5].
+
+Passed
+uniteUnique([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]) should return [1, 2, 3, 5, 4, 6, 7, 8].
 
 ## 1.11. Convert HTML Entities
 
-```js
+Convert the characters &, <, >, " (double quote), and ' (apostrophe), in a string to their corresponding HTML entities.
 
+```js
+function convertHTML(str) {
+  let arry = [];
+  let newStr='';
+  if (str.search('&') > -1){
+    arry = str.split('&');
+    newStr = newStr + arry.shift();
+    arry.map((item)=>{
+      newStr = newStr+'&amp;'+item;
+    })
+ str = newStr
+  }
+    if (str.search('<') > -1){
+  arry = str.split('<');
+    newStr = newStr + arry.shift();
+    arry.map((item)=>{
+      newStr = newStr+'&lt;'+item;
+    })
+     str = newStr
+  }
+    if (str.search('>') > -1){
+  arry = str.split('>');
+    newStr = newStr + arry.shift();
+    arry.map((item)=>{
+      newStr = newStr+'&gt;'+item;
+    })
+     str = newStr
+  }
+    if (str.search('"') > -1){
+  arry = str.split('"');
+    newStr = newStr + arry.shift();
+    arry.map((item)=>{
+      newStr = newStr+'&quot;'+item;
+    })
+     str = newStr
+  }
+ if (str.search("'") > -1){
+  arry = str.split("'");
+    newStr = newStr + arry.shift();
+    arry.map((item)=>{
+      newStr = newStr+'&apos;'+item;
+    })
+    str = newStr
+  }
+  return str;
+}
+
+convertHTML("Dolce & Gabbana");
+convertHTML("Dolce & Gabbana") should return "Dolce &amp; Gabbana".
+
+Passed
+convertHTML("Hamburgers < Pizza < Tacos") should return "Hamburgers &lt; Pizza &lt; Tacos".
+
+Passed
+convertHTML("Sixty > twelve") should return "Sixty &gt; twelve".
+
+Passed
+convertHTML('Stuff in "quotation marks"') should return "Stuff in &quot;quotation marks&quot;".
+
+Passed
+convertHTML("Schindler's List") should return "Schindler&apos;s List".
+
+Passed
+convertHTML("<>") should return "&lt;&gt;".
+
+Passed
+convertHTML("abc") should return "abc".
 ```
 
 ## 1.12. Sum All Odd Fibonacci Numbers
 
-```js
+Given a positive integer num, return the sum of all odd Fibonacci numbers that are less than or equal to num.
 
+The first two numbers in the Fibonacci sequence are 1 and 1. Every additional number in the sequence is the sum of the two previous numbers. The first six numbers of the Fibonacci sequence are 1, 1, 2, 3, 5 and 8.
+
+For example, sumFibs(10) should return 10 because all odd Fibonacci numbers less than or equal to 10 are 1, 1, 3, and 5.
+
+```js
+function sumFibs(num) {
+  let ofn1 = 0;
+  let ofn = 1;
+  let sum = 0;
+
+  // 判断 这个 odd Fibonacci numbers 是不是<= 给定的数
+  while(ofn <= num){
+    // 累加
+     if (ofn % 2 !== 0) {
+       sum +=ofn;
+    }
+    
+    // 写一个odd Fibonacci numbers 生成器
+    ofn +=ofn1;
+    ofn1 = ofn - ofn1;
+    console.log(sum)
+  }
+  return sum;
+}
+  return sum;
+}
+
+sumFibs(4);
 ```
 
-## 1.13. Sum All Primes
+## 1.13. Sum All Primes 质数
+
+A prime number 质数 is a whole number greater than 1 with exactly two divisors:
+ 1 and itself. 
+
+For example, 
+2 is a prime number because it is only divisible by 1 and 2. 
+
+In contrast, 4 is not prime since it is divisible by 1, 2 and 4.
+
+Rewrite sumPrimes so it returns the sum of all prime numbers that are less than or equal to num.
 
 ```js
+function sumPrimes(num) {
+  // 准备变量
+  let sum = 0;
+  // 所有可能的值
+  let checkNums =[];
+  for(let x = 2;x<=num;x++){
+    checkNums.push(x)
+  }
 
+  // 找出所有质数
+  var primesArray = [];
+  checkNums.map(function(x) {
+    if(isPrime(x)){
+      primesArray.push(x);
+    }
+  });
+
+  // 累加
+  primesArray.map((item)=>{
+    sum += item;
+  })
+
+  // 检查是否质数
+  function isPrime(checkNum){  
+    for(let x = 2;x <checkNum;x++){
+       if(checkNum%x == 0){
+         return false;
+       } 
+    }
+    return true;
+  }
+  return sum;
+}
+
+
+sumPrimes(10);
+sumPrimes(10) should return 17.
+sumPrimes(977) should return 73156.
 ```
 
 ## 1.14. Smallest Common Multiple
