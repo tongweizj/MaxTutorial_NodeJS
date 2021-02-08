@@ -520,41 +520,235 @@ sumPrimes(977) should return 73156.
 
 ## 1.14. Smallest Common Multiple
 
+Smallest Common Multiple
+Find the smallest common multiple of the provided parameters that can be evenly divided by both, as well as by all sequential numbers in the range between these parameters.
+
+The range will be an array of two numbers that will not necessarily be in numerical order.
+For example, if given 1 and 3, find the smallest common multiple of both 1 and 3 that is also evenly divisible by all numbers between 1 and 3. The answer here would be 6.
+
+【1，3】
+1，2，3， 的最小公倍数 6
+【1，5】
+1，2，3，4，5 ，60
+
+\1. 列出所有的数字
+\2. 从最大数开始除，每次加1，找出可以被全部整除的
+
 ```js
+function smallestCommons(arr) {
+ var range = [];
+ for (var i = Math.max(arr[0], arr[1]); i >= Math.min(arr[0], arr[1]); i--) {
+  range.push(i);
+ }
+
+ // can use reduce() in place of this block
+ var lcm = range[0];
+// s使用
+ for (i = 1; i < range.length; i++) {
+  var GCD = gcd(lcm, range[i]);
+  lcm = (lcm * range[i]) / GCD;
+ }
+ return lcm;
+
+ function gcd(x, y) {
+  // Implements the Euclidean Algorithm
+  if (y === 0) return x;
+  else return gcd(y, x % y);
+ }
+}
+
+// test here
+smallestCommons([1, 5]);
+
+
+
+function smallestCommons(arr) {
+ // 1 变形一个新的数组，列出所有数
+ let s,b =0;
+ if(arr[0]>=arr[arr.length-1]){
+  b = arr[0];
+  s = arr[arr.length-1];
+ }else{
+  s = arr[0];
+  b = arr[arr.length-1];
+ };
+ let allArr = [];
+ for(s;s<=b;s++){
+  allArr.push(s);
+ };
+var range = [];
+ for (var i = Math.max(arr[0], arr[1]); i >= Math.min(arr[0], arr[1]); i--) {
+  range.push(i);
+ }
+ console.log(allArr);
+ // 2. 从最大数开始检测是否最大公约数
+ const isDivided = (item) => {
+  //console.log(b);
+  return b % item==0;
+  }
+ //console.log(allArr.every(isDivided));
+ while(allArr.every(isDivided) == false){
+  //console.log('b');
+  b ++
+ }
+ // 如果不是，就+1
+
+ return b;
+}
+
+
+smallestCommons([1,5]);
 
 ```
 
 ## 1.15. Drop it
 
-```js
+Given the array `arr`, iterate through and remove each element starting from the first element (the 0 index) until the function `func` returns `true` when the iterated element is passed through it.
 
+Then return the rest of the array once the condition is satisfied, otherwise, `arr` should be returned as an empty array.
+
+```js
+function dropElements(arr, func) {
+  let newArr = [].concat(arr);
+  let i =0;
+  while(func(arr[i])==false){
+    newArr.shift();
+    i++
+  }
+  return newArr;
+}
+
+dropElements([1, 2, 3], function(n) {return n < 3; });
+dropElements([1, 2, 3, 4], function(n) {return n >= 3;}) should return [3, 4].
+dropElements([0, 1, 0, 1], function(n) {return n === 1;}) should return [1, 0, 1].
 ```
 
-## 1.16. Steamroller
+## 1.16. Steamroller 蒸汽压路机
+
+Flatten a nested array. You must account for varying levels of nesting.
+
+扁平化一个嵌套数组。你必须考虑到不同层次的嵌套。
 
 ```js
+function steamrollArray(arr) {
+  let resp = [];
+  function d(arr){
+    arr.map((item)=>{
+      if(item.constructor == Array){
+        d(item);
+      }else{
+        resp.push(item);
+      }
+    })
+  }
+  d(arr);
+  return resp;
+}
 
+steamrollArray([1, [2], [3, [[4]]]]);
 ```
 
 ## 1.17. Binary Agents
 
-```js
+Return an English translated sentence of the passed binary string.
 
+The binary string will be space separated.
+
+```js
+function binaryAgent(str) {
+
+  var result = [];
+  var list = str.split(" ");
+  for(var i=0;i<list.length;i++){
+     var item = list[i];
+     var asciiCode = parseInt(item,2);
+     var charValue = String.fromCharCode(asciiCode);
+     result.push(charValue);
+  }
+  return result.join("");
+} 
+
+binaryAgent("01000001 01110010 01100101 01101110 00100111 01110100 00100000 01100010 01101111 01101110 01100110 01101001 01110010 01100101 01110011 00100000 01100110 01110101 01101110 00100001 00111111");
 ```
 
 ## 1.18. Everything Be True
 
-```js
+Check if the predicate (second argument) is truthy on all elements of a collection (first argument).
 
+In other words, you are given an array collection of objects. The predicate `pre` will be an object property and you need to return `true` if its value is `truthy`. Otherwise, return `false`.
+
+In JavaScript, `truthy` values are values that translate to `true` when evaluated in a Boolean context.
+
+Remember, you can access object properties through either dot notation or `[]` notation.
+
+```js
+function truthCheck(collection, pre) {
+  function check(item) {
+
+    return item[pre];
+}
+  if(collection.every(check)){
+    return true;
+  }else{
+    return false;
+  }
+
+}
+
+truthCheck([{"user": "Tinky-Winky", "sex": "male"}, {"user": "Dipsy", "sex": "male"}, {"user": "Laa-Laa", "sex": "female"}, {"user": "Po", "sex": "female"}], "sex");
 ```
 
 ## 1.19. Arguments Optional
 
-```js
+Create a function that sums two arguments together.
 
+If only one argument is provided, then return a function that expects one argument and returns the sum.
+
+For example, `addTogether(2, 3)` should return `5`, and `addTogether(2)` should return a function.
+
+Calling this returned function with a single argument will then return the sum:
+
+```
+var sumTwoAnd = addTogether(2);
+```
+
+`sumTwoAnd(3)` returns `5`.
+
+If either argument isn't a valid number, return undefined.
+
+```js
+function addTogether(first, second) {
+  if (typeof first !== "number") {
+    return undefined;
+  }
+  const sum = second =>
+    typeof second === "number" ? first + second : undefined;
+  return typeof second === "undefined" ? second => sum(second) : sum(second);
+}
+// test here
+
+addTogether(2, 3) should return 5.
+addTogether(23, 30) should return 53.
+addTogether(5)(7) should return 12.
+addTogether("http://bit.ly/IqT6zt") should return undefined.
+addTogether(2, "3") should return undefined.
+addTogether(2)([3]) should return undefined.
 ```
 
 ## 1.20. Make a Person
+
+Fill in the object constructor with the following methods below:
+
+```js
+getFirstName()
+getLastName()
+getFullName()
+setFirstName(first)
+setLastName(last)
+setFullName(firstAndLast)
+```
+
+Run the tests to see the expected output for each method. The methods that take an argument must accept only one argument and it has to be a string. These methods must be the only available means of interacting with the object.
 
 ```js
 
