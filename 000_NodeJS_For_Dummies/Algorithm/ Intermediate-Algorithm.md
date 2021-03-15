@@ -751,10 +751,57 @@ setFullName(firstAndLast)
 Run the tests to see the expected output for each method. The methods that take an argument must accept only one argument and it has to be a string. These methods must be the only available means of interacting with the object.
 
 ```js
+var Person = function(firstAndLast) {
+    // Only change code below this line
+    // Complete the method below and implement the others similarly
+  
+      var _fullName = firstAndLast;
+    
+    
+    this.getFullName = function() {
+      return _fullName;
+    };
+    this.getFirstName = function(){
+      return _fullName.split(' ')[0];
+    };
+  this.getLastName= function(){
+     return _fullName.split(' ')[1];
+  };
+  
+  this.setFirstName= function(first){
+    var tmpName = _fullName.split(' ');
+    tmpName[0]=first;
+    
+    _fullName = tmpName.join(' ');
+  };
+  this.setLastName= function(last){
+    var tmpName = _fullName.split(' ');
+    tmpName[1]=last;
+    _fullName = tmpName.join(' ')
+  };
+  this.setFullName= function(firstAndLast){
+    _fullName = firstAndLast;
+  };
+  return _fullName;
+  };
 
+var bob = new Person('Bob Ross');
+bob.getFullName();
 ```
 
 ## 1.21. Map the Debris
+
+**Map the Debris**
+
+Return a new array that transforms the elements' average altitude into their orbital periods (in seconds).
+
+The array will contain objects in the format `{name: 'name', avgAlt: avgAlt}`.
+
+You can read about orbital periods [on Wikipedia](http://en.wikipedia.org/wiki/Orbital_period).
+
+The values should be rounded to the nearest whole number. The body being orbited is Earth.
+
+The radius of the earth is 6367.4447 kilometers, and the GM value of earth is 398600.4418 km3s-2.
 
 ```js
 
